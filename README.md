@@ -10,3 +10,7 @@ Workflow:
 6) Run 'threemaWorkOnboardingMDMHandler.py': this will add the additional information (clear names) from output.xlsx to the MDM File. 
 7) Import the new 'outputMDM.csv' as the new Threema.Work MDM data. CAUTION: this overrides all existing data in the Management-Cockpit.
 8) Let your new users know the username-password combination to get going with Threema.Work. 
+
+# License
+CC BY-SA 4.0.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/
