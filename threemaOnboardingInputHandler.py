@@ -19,7 +19,7 @@
 import pandas as pd
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
-from appliances import stringFlattener, passwordGenerator, fileChooser, duplicateWarningDialogShell
+from appliances import stringFlattener, passwordGenerator, duplicateWarningDialogShell
 
 # Fire up the main view and hide it.
 root = Tk()
@@ -125,12 +125,15 @@ for i in inptDF.index:
                     print('Invalid action. Please try again.')
 
 # Save entire dataframe as Excel for external processing, e.g., for bulk email of access data
-writer = pd.ExcelWriter('../../output/output.xlsx')
+writer = pd.ExcelWriter('output/output.xlsx')
 inptDF.to_excel(writer)
 writer.save()
 
+# TODO change the following to using the Threema API to write new users straight to the management center. While at it, the
+# individual MDM entries can be updated too. (AFTER PULLING A BACKUP!)
+
 # Save username-password pairs for import to Threema.Work user creation
-inptDF.to_csv('../../output/output.csv', columns=["Username", "Password"], index=False, header=False)
+inptDF.to_csv('output/output.csv', columns=["Username", "Password"], index=False, header=False)
 
 
 
