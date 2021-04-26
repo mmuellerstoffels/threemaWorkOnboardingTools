@@ -6,6 +6,11 @@ class ThreemaWorkManagementAPI:
         self.headers = { 'X-API-KEY': apiKey }
 
     def getSubscription(self):
+        '''
+        THIS CALL DOES NOT SEEM TO WORK!
+        Returns information about the subscription.
+        :return: JSON
+        '''
         endpoint = self.url + "/"
         response = requests.get(endpoint, headers=self.headers)
         return response
