@@ -19,7 +19,7 @@
 import pandas as pd
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
-from appliances import stringFlattener, passwordGenerator, duplicateWarningDialogShell
+from appliances import stringFlattener, passwordGenerator, duplicateWarningDialogShell, getUsernameListAsDf
 
 # Fire up the main view and hide it.
 root = Tk()
@@ -31,8 +31,10 @@ inputFileName = askopenfilename(message='Select the XLSX file with new users.', 
 inptDF = pd.read_excel(inputFileName)
 
 # Retrieve the current MDM file for checking new usernames against as duplicates ares not allowed.
-mdmFileName = askopenfilename(message='Select the CSV file containing the MDM infos.', filetypes=[('CSV Files', '*.csv')])
-mdmDf = pd.read_csv(mdmFileName)
+# mdmFileName = askopenfilename(message='Select the CSV file containing the MDM infos.', filetypes=[('CSV Files', '*.csv')])
+# mdmDf = pd.read_csv(mdmFileName)
+# TODO clean up the code from file to Api call for MDM data
+mdmDf = getUsernameListAsDf()
 
 # Some setup and cleaning of the input dataframe needs to happen.
 # Some Excel files may have empty rows for structure. These are trouble later so we drop them here.
@@ -99,9 +101,10 @@ for i in inptDF.index:
     userName = inptDF.loc[i, 'Username']  # convenience variable
     # check if username exists already in current MDM
     for j in mdmDf.index[1:]:
-        if userName == mdmDf.license[j]:
+        if userName == mdmDf.username[j]:
             validAction = False
             while not validAction:
+                # TODO clean this up - need to call MDM info by username or id (needs adjusting getUsername...)
                 action = duplicateWarningDialogShell('MDM', userName,
                                             mdmDf.th_firstname[j], mdmDf.th_lastname[j],
                                             inptDF.FirstName[i], inptDF.LastName[i])
