@@ -3,6 +3,13 @@
 
 import string
 import random
+import requests
+import json
+import pandas as pd
+import threemaWorkManagementAPI
+import os
+
+apiHandle = threemaWorkManagementAPI.ThreemaWorkManagementAPI(apiKey=os.environ.get('Threema_MngmtCockpit_Api_Key'))
 
 def stringFlattener(inpString):
     """
@@ -94,3 +101,9 @@ def duplicateWarningDialogShell(duplicateLocation,
     action = input("Options: Skip creation (s), Modify new (m)")
 
     return action
+
+def getUsernameListAsDf():
+    r = apiHandle.getListCredentials(pageSize='0')
+    rson = json.loads(r.text)
+    df = pd.json_normalize(rson['credentials'])
+    return df['Usernames']
