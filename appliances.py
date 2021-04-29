@@ -7,7 +7,9 @@ import requests
 import json
 import pandas as pd
 import threemaWorkManagementAPI
+from dotenv import load_dotenv
 import os
+load_dotenv()
 
 apiHandle = threemaWorkManagementAPI.ThreemaWorkManagementAPI(apiKey=os.environ.get('Threema_MngmtCockpit_Api_Key'))
 
@@ -106,4 +108,4 @@ def getUsernameListAsDf():
     r = apiHandle.getListCredentials(pageSize='0')
     rson = json.loads(r.text)
     df = pd.json_normalize(rson['credentials'])
-    return df['Usernames']
+    return df['username']
