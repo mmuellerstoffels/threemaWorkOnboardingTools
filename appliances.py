@@ -104,8 +104,14 @@ def duplicateWarningDialogShell(duplicateLocation,
 
     return action
 
-def getUsernameListAsDf():
+def getUserInfoListAsDf():
+    """
+    TODO
+    :return:
+    """
     r = apiHandle.getListCredentials(pageSize='0')
     rson = json.loads(r.text)
     df = pd.json_normalize(rson['credentials'])
-    return df['username']
+    return df
+
+def getThFirstname(id):

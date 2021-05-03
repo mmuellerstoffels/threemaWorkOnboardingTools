@@ -1,4 +1,5 @@
 import requests
+import urllib
 
 class ThreemaWorkManagementAPI:
     def __init__(self, apiKey, host='work.threema.ch', apiRoot='/api/v1'):
@@ -82,7 +83,9 @@ class ThreemaWorkManagementAPI:
     ##### THREEMA MDM #######
     # TODO
     def getTMDMCredentialShow(self, id, propertyId):
-        pass
+        endpoint = self.url + "/credentials/" + urllib.parse.quote_plus(id) + "/mdm/" + propertyId
+        response = requests.get(endpoint, headers=self.headers)
+        return response
 
     # TODO
     def putTMDMCredentialUpdate(self, id, propertyId):
