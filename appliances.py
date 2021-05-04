@@ -114,4 +114,7 @@ def getUserInfoListAsDf():
     df = pd.json_normalize(rson['credentials'])
     return df
 
-def getThFirstname(id):
+def getThPropertyValue(id, propertyId):
+    r = apiHandle.getTMDMCredentialShow(id=id, propertyId=propertyId)
+    propertyValue = r.json()['value']
+    return propertyValue

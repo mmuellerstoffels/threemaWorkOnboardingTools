@@ -17,9 +17,10 @@
 # STEP 2: see threemOnboardingMDMHandler.py
 
 import pandas as pd
+import urllib
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
-from appliances import stringFlattener, passwordGenerator, duplicateWarningDialogShell, getUsernameListAsDf
+from appliances import *
 
 # Fire up the main view and hide it.
 root = Tk()
@@ -34,7 +35,7 @@ inptDF = pd.read_excel(inputFileName)
 # mdmFileName = askopenfilename(message='Select the CSV file containing the MDM infos.', filetypes=[('CSV Files', '*.csv')])
 # mdmDf = pd.read_csv(mdmFileName)
 # TODO clean up the code from file to Api call for MDM data
-mdmDf = getUsernameListAsDf()
+mdmDf = getUserInfoListAsDf()
 
 # Some setup and cleaning of the input dataframe needs to happen.
 # Some Excel files may have empty rows for structure. These are trouble later so we drop them here.
@@ -104,9 +105,12 @@ for i in inptDF.index:
         if userName == mdmDf.username[j]:
             validAction = False
             while not validAction:
-                # TODO clean this up - need to call MDM info by username or id (needs adjusting getUsername...)
+                # Get current MDM-id and retrieve associated properties for comparison with input data
+                mdmId = mdmDf.loc[j, 'id']
+                th_firstname = getThPropertyValue(mdmId, "th_firstname")
+                th_lastname = getThPropertyValue(mdmId, "th_lastname")
                 action = duplicateWarningDialogShell('MDM', userName,
-                                            mdmDf.th_firstname[j], mdmDf.th_lastname[j],
+                                            th_firstname, th_lastname,
                                             inptDF.FirstName[i], inptDF.LastName[i])
 
                 if action == 's':
@@ -117,7 +121,7 @@ for i in inptDF.index:
                 elif action == 'm':
                     appendInt = 1
                     userNameMod = userName
-                    while mdmDf['license'].str.contains(userNameMod).any():
+                    while mdmDf['username'].str.contains(userNameMod).any():
                         userNameMod = userName + str(appendInt)
                     userName = userNameMod
                     inptDF.loc[i, 'Username'] = userNameMod
