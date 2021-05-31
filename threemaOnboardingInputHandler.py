@@ -31,10 +31,7 @@ root.withdraw()
 inputFileName = askopenfilename(message='Select the XLSX file with new users.', filetypes=[("XLSX Files", "*.xlsx")])
 inptDF = pd.read_excel(inputFileName)
 
-# Retrieve the current MDM file for checking new usernames against as duplicates ares not allowed.
-# mdmFileName = askopenfilename(message='Select the CSV file containing the MDM infos.', filetypes=[('CSV Files', '*.csv')])
-# mdmDf = pd.read_csv(mdmFileName)
-# TODO clean up the code from file to Api call for MDM data
+# Retrieve the current MDM file for checking if new usernames already exist as they have to be unique.
 mdmDf = getUserInfoListAsDf()
 
 # Some setup and cleaning of the input dataframe needs to happen.
