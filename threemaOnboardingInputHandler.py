@@ -116,6 +116,7 @@ for i in inptDF.index:
                     userNameMod = userName
                     while mdmDf['license'].str.contains(userNameMod).any():
                         userNameMod = userName + str(appendInt)
+                        appendInt = appendInt + 1
                     userName = userNameMod
                     inptDF.loc[i, 'Username'] = userNameMod
                     print('Username modified to ' + userNameMod)
