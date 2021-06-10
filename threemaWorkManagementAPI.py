@@ -117,7 +117,9 @@ class ThreemaWorkManagementAPI:
 
     # TODO
     def getTMDMGlobalList(self):
-        pass
+        endpoint = self.url + "/mdm"
+        response = requests.get(endpoint, headers=self.headers)
+        return response
 
     # TODO
     def postTMDMGlobalCreate(self, mdmValue):

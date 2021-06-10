@@ -81,6 +81,7 @@ for i in inptDF.index:
                 userNameMod = userName
                 while inptDF['Username'].str.contains(userNameMod).any():
                     userNameMod = userName + str(appendInt)
+                    appendInt = appendInt + 1
                 userName = userNameMod
                 print('Username modified to ' + userNameMod)
                 validAction = True
@@ -135,6 +136,7 @@ writer.save()
 
 # TODO change the following to using the Threema API to write new users straight to the management center. While at it, the
 # individual MDM entries can be updated too. (AFTER PULLING A BACKUP!)
+# TODO Call backupMDM
 
 # Save username-password pairs for import to Threema.Work user creation
 inptDF.to_csv('output/output.csv', columns=["Username", "Password"], index=False, header=False)

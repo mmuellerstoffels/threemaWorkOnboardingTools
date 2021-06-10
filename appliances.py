@@ -109,9 +109,36 @@ def getUserInfoListAsDf():
     TODO
     :return:
     """
+
+    # First pull the overall info that also includes the necessary ids to pull specifics
     r = apiHandle.getListCredentials(pageSize='0')
     rson = json.loads(r.text)
     df = pd.json_normalize(rson['credentials'])
+
+    return df
+
+
+def getUserInfoListAsDf(propertyIds):
+    """
+    :param propertyIds List with property ids to retrieve values from
+    :return:
+    """
+
+    # First pull the overall info that also includes the necessary ids to pull specifics
+    r = apiHandle.getListCredentials(pageSize='0')
+    rson = json.loads(r.text)
+    df = pd.json_normalize(rson['credentials'])
+
+    # Now get additional info as requested
+    addtlInfoDf = pd.DataFrame(index=df.index, columns=propertyIds)
+    for j in addtlInfoDf.columns.size:
+        for i in df.index:
+            colNum = j
+            r = apiHandle.getTMDMCredentialShow(id=df.loc[i, 'id'], propertyId=addtlInfoDf.columns[colNum])
+            addtlInfoDf.loc[i, addtlInfoDf.columns[colNum]] = r.json()['value']
+
+    df[addtlInfoDf.columns] = addtlInfoDf
+
     return df
 
 def getThPropertyValue(id, propertyId):
